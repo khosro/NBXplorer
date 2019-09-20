@@ -16,6 +16,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFi
 		Dockerfile.linuxarm32v7 = Dockerfile.linuxarm32v7
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NBitcoin", "..\NBitcoin\NBitcoin-4.1.3\NBitcoin\NBitcoin.csproj", "{0C3573D5-E237-4F35-B74C-3AAD453C6ABF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NBitcoin.Altcoins", "..\NBitcoin\NBitcoin-4.1.3\NBitcoin.Altcoins\NBitcoin.Altcoins.csproj", "{D9B61AAA-3ABF-41BA-A704-378B173183E7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,6 +38,14 @@ Global
 		{D62CE99D-C25A-407F-8104-0BEFD12A3B5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D62CE99D-C25A-407F-8104-0BEFD12A3B5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D62CE99D-C25A-407F-8104-0BEFD12A3B5D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C3573D5-E237-4F35-B74C-3AAD453C6ABF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C3573D5-E237-4F35-B74C-3AAD453C6ABF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C3573D5-E237-4F35-B74C-3AAD453C6ABF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C3573D5-E237-4F35-B74C-3AAD453C6ABF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9B61AAA-3ABF-41BA-A704-378B173183E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9B61AAA-3ABF-41BA-A704-378B173183E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9B61AAA-3ABF-41BA-A704-378B173183E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9B61AAA-3ABF-41BA-A704-378B173183E7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
