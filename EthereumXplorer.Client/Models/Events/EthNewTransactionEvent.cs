@@ -1,14 +1,14 @@
-﻿
+﻿using EthereumXplorer.Client.Models;
 using EthereumXplorer.Client.Models.Events;
-using EthereumXplorer.Models;
 
 namespace EthereumXplorer
 {
 	public class EthNewTransactionEvent : EthereumNewEventBase
 	{
-		public EthNewTransactionEvent(EthereumClientTransactionData transaction)
+		public EthNewTransactionEvent(EthereumClientTransactionData transaction, string crytoCode)
 		{
 			Transaction = transaction;
+			CryptoCode = crytoCode;
 		}
 
 		public EthereumClientTransactionData Transaction { get; set; }

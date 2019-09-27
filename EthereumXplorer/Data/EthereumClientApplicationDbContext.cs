@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using EthereumXplorer.Models;
+using EthereumXplorer.Client.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 namespace EthereumXplorer.Data

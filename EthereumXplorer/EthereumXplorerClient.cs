@@ -1,7 +1,8 @@
 ﻿using EthereumXplorer.Client.Models;
 using EthereumXplorer.Data;
-using EthereumXplorer.Models;
+using EthereumXplorer.Loggging;
 using EthereumXplorer.Services;
+using Microsoft.Extensions.Logging;
 using NBitcoin;
 using NBXplorer;
 using Nethereum.Hex.HexTypes;
@@ -51,6 +52,8 @@ namespace EthereumXplorer
 			PendingTransactionsSubscription = new EthNewPendingTransactionObservableSubscription(_streamingWebSocketClient);
 			_streamingWebSocketClient.StartAsync().Wait();
 			PendingTransactionsSubscription.SubscribeAsync().Wait();
+			Logs.EthereumXplorer.LogInformation($"{_Network.CryptoCode}: EthereumXplorerClient Init");
+			Console.WriteLine($"{_Network.CryptoCode}: EthereumXplorerClient Init ...........");
 		}
 
 		public async Task<EthereumStatusResult> GetStatusAsync(CancellationToken cancellation = default)
@@ -95,8 +98,7 @@ namespace EthereumXplorer
 		public async Task<EthereumClientTransactionData> GetTransactionAsyncByTransactionId(string txid)
 		{
 			Nethereum.RPC.Eth.DTOs.Transaction trans = await _web3.Eth.Transactions.GetTransactionByHash.SendRequestAsync(txid).ConfigureAwait(false);
-			EthereumClientTransactionData transData = new EthereumClientTransactionData();
-			transData.Init(trans);
+			EthereumClientTransactionData transData = trans.ToEthereumClientTransactionData();
 			return transData;
 		}
 
@@ -194,5 +196,5 @@ namespace EthereumXplorer
 		public long LastBlockNumber => Convert.ToInt64(result, 16);
 		public int id { get; set; }
 	}
-	
+
 }

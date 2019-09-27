@@ -1,7 +1,6 @@
 ﻿using EthereumXplorer;
 using EthereumXplorer.Client;
 using EthereumXplorer.Client.Models;
-using EthereumXplorer.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NBXplorer.Ethereum;
@@ -27,7 +26,7 @@ namespace NBXplorer.Controllers
 			get; set;
 		}
 
-		EthereumXplorerClient _EthereumXplorerClient(string crytoCode)
+		private EthereumXplorerClient _EthereumXplorerClient(string crytoCode)
 		{
 			return _EthereumXplorerClientProvider.GetEthereumClient(crytoCode);
 		}
@@ -83,7 +82,7 @@ namespace NBXplorer.Controllers
 		[Route("cryptos/{CryptoCode}/transid/{txId}")]
 		public async Task<IActionResult> GetTransactionAsyncByTransactionId(string cryptoCode, string transid)
 		{
-			EthereumXplorer.Models.EthereumClientTransactionData trans = await _EthereumXplorerClient(cryptoCode).GetTransactionAsyncByTransactionId(transid);
+			EthereumClientTransactionData trans = await _EthereumXplorerClient(cryptoCode).GetTransactionAsyncByTransactionId(transid);
 			return Json(trans);
 		}
 

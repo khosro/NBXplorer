@@ -20,7 +20,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EthereumXplorer.Client\EthereumXplorer.Client.csproj" />
-    <ProjectReference Include="..\EthereumXplorer.Models\EthereumXplorer.Models.csproj" />
     <ProjectReference Include="..\XplorerUtil\XplorerUtil.csproj" />
   </ItemGroup>
 

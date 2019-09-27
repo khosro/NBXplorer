@@ -1,5 +1,4 @@
 ﻿using EthereumXplorer.Client.Models;
-using EthereumXplorer.Models;
 using NBXplorer;
 using NBXplorer.Models;
 using System;

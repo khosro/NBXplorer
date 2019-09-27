@@ -1,9 +1,12 @@
-﻿using EthereumXplorer.Config;
+﻿using EthereumXplorer.Client.Models;
+using EthereumXplorer.Config;
 using EthereumXplorer.Data;
 using EthereumXplorer.Loggging;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
+using Nethereum.Web3;
+using System;
 using System.IO;
 using XplorerUtil;
 
@@ -58,6 +61,36 @@ namespace EthereumXplorer
 			});
 
 			services.TryAddSingleton<EthereumClientTransactionRepository>();
+		}
+
+		public static EthereumClientTransactionData ToEthereumClientTransactionData(this Nethereum.RPC.Eth.DTOs.Transaction transaction)
+		{
+			return new EthereumClientTransactionData()
+			{
+				TransactionHash = transaction.TransactionHash,
+
+				BlockNumber = transaction.BlockNumber.Value.ToString(),
+
+				BlockHash = transaction.BlockHash,
+
+				Nonce = transaction.Nonce.Value.ToString(),
+
+				From = transaction.From,
+
+				To = transaction.To,
+
+				Gas = transaction.Gas.ToString(),
+
+				GasPrice = transaction.GasPrice.ToString(),
+
+				Input = transaction.Input,
+
+				TransactionIndex = transaction.TransactionIndex.Value.ToString(),
+
+				CreatedDateTime = DateTime.UtcNow,
+
+				Amount = transaction.Value != null ? Web3.Convert.FromWei(transaction.Value.Value) : 0
+			};
 		}
 	}
 }
