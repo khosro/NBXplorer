@@ -27,6 +27,7 @@ namespace NBXplorer
 		{
 			var processor = new ConsoleLoggerProcessor();
 			Logs.Configure(new FuncLoggerFactory(i => new CustomerConsoleLogger(i, (a, b) => true, null, processor)));
+			EthereumXplorer.Loggging.Logs.Configure(new FuncLoggerFactory(i => new CustomerConsoleLogger(i, (a, b) => true, null, processor)));
 			IWebHost host = null;
 			try
 			{

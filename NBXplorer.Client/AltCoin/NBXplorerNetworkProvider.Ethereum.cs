@@ -1,8 +1,4 @@
 ﻿using NBitcoin;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 
 namespace NBXplorer
 {
@@ -10,15 +6,15 @@ namespace NBXplorer
 	{
 		private void InitEthereum(NetworkType networkType)
 		{
-			Add(new NBXplorerNetwork(NBXplorer.Client.AltCoin.Ethereum.Instance, networkType)
+			Add(new EthereumXplorerNetwork(NBXplorer.Client.AltCoin.Ethereum.Instance, networkType)
 			{
 				MinRPCVersion = 160000
 			});
 		}
 
-		public NBXplorerNetwork GetEth()
+		public EthereumXplorerNetwork GetEth()
 		{
-			return GetFromCryptoCode(NBXplorer.Client.AltCoin.Ethereum.Instance.CryptoCode);
+			return GetEth(NBXplorer.Client.AltCoin.Ethereum.Instance.CryptoCode);
 		}
 	}
 }

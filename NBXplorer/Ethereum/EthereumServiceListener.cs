@@ -1,0 +1,74 @@
+﻿using EthereumXplorer;
+using EthereumXplorer.Data;
+using EthereumXplorer.Loggging;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace NBXplorer.Ethereum
+{
+	public class EthereumServiceListener
+	{
+
+		private EventAggregator _Aggregator;
+		private readonly EthereumXplorerClientProvider _EthereumClients;
+		private readonly Microsoft.Extensions.Hosting.IApplicationLifetime _Lifetime;
+		private TaskCompletionSource<bool> _RunningTask;
+		private CancellationTokenSource _Cts;
+		private EthereumClientTransactionRepository _ethereumClientTransactionRepository;
+		public EthereumServiceListener(EthereumXplorerClientProvider EthereumClients,
+ 								EventAggregator aggregator,
+								Microsoft.Extensions.Hosting.IApplicationLifetime lifetime,
+								 EthereumClientTransactionRepository ethereumClientTransactionRepository)
+		{
+			PollInterval = TimeSpan.FromMinutes(1.0);
+
+			_EthereumClients = EthereumClients;
+			_Aggregator = aggregator;
+			_Lifetime = lifetime;
+			_ethereumClientTransactionRepository = ethereumClientTransactionRepository;
+		}
+
+		private CompositeDisposable leases = new CompositeDisposable();
+		private Timer _ListenPoller;
+		private TimeSpan _PollInterval;
+		public TimeSpan PollInterval
+		{
+			get => _PollInterval;
+			set
+			{
+				_PollInterval = value;
+				if (_ListenPoller != null)
+				{
+					_ListenPoller.Change(0, (int)value.TotalMilliseconds);
+				}
+			}
+		}
+
+		public Task StartAsync(CancellationToken cancellationToken)
+		{
+			_RunningTask = new TaskCompletionSource<bool>();
+			_Cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+
+			leases.Add(_Aggregator.Subscribe<EthNewTransactionEvent>(async evt =>
+			{
+				Logs.EthereumXplorer.LogInformation($"Publish subscribe EthNewTransactionEvent ,TransactionHash : {evt.Transaction.TransactionHash}");
+				await _ethereumClientTransactionRepository.SaveOrUpdateTransaction(evt.Transaction);
+			}));
+
+			leases.Add(_Aggregator.Subscribe<EthNewBlockEvent>(async evt =>
+			{
+			}));
+
+			return Task.CompletedTask;
+		}
+
+		public Task StopAsync(CancellationToken cancellationToken)
+		{
+			leases.Dispose();
+			_Cts.Cancel();
+			return Task.WhenAny(_RunningTask.Task, Task.Delay(-1, cancellationToken));
+		}
+	}
+}

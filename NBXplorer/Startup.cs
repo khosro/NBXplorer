@@ -18,6 +18,7 @@ using NBXplorer.Filters;
 using NBXplorer.Logging;
 using Microsoft.AspNetCore.Authentication;
 using NBXplorer.Authentication;
+using EthereumXplorer;
 #if NETCOREAPP21
 using IWebHostEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 #else
@@ -46,6 +47,8 @@ namespace NBXplorer
 				httpClient.Timeout = System.Threading.Timeout.InfiniteTimeSpan;
 			});
 			services.AddNBXplorer();
+			services.AddEthereumLike1();
+			services.AddEthereumLike();
 			services.ConfigureNBxplorer(Configuration);
 			var builder = services.AddMvcCore();
 #if NETCOREAPP21

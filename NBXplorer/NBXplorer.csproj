@@ -28,6 +28,7 @@
     <PackageReference Include="DBriize" Version="1.0.0.4" />
 	  <PackageReference Include="NicolasDorier.CommandLine" Version="1.0.0.2" />
 	  <PackageReference Include="NicolasDorier.CommandLine.Configuration" Version="1.0.0.3" />
+	  <ProjectReference Include="..\EthereumXplorer\EthereumXplorer.csproj" />
     <ProjectReference Include="..\NBXplorer.Client\NBXplorer.Client.csproj" />
   </ItemGroup>
   <ItemGroup>

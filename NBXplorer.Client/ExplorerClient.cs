@@ -20,14 +20,14 @@ namespace NBXplorer
 {
 	public class ExplorerClient
 	{
-		internal interface IAuth
+		public interface IAuth
 		{
 			bool RefreshCache();
 			void SetAuthorization(HttpRequestMessage message);
 			void SetWebSocketAuth(ClientWebSocket socket);
 		}
 
-		class CookieAuthentication : IAuth
+		public class CookieAuthentication : IAuth
 		{
 			string _CookieFilePath;
 			AuthenticationHeaderValue _CachedAuth;
@@ -59,7 +59,7 @@ namespace NBXplorer
 					socket.Options.SetRequestHeader("Authorization", $"{_CachedAuth.Scheme} {_CachedAuth.Parameter}");
 			}
 		}
-		class NullAuthentication : IAuth
+		public class NullAuthentication : IAuth
 		{
 			public bool RefreshCache()
 			{

@@ -1,8 +1,7 @@
 ﻿using NBitcoin;
 using System;
 using System.Collections.Generic;
-using System.Text;
-
+using System.Linq;
 namespace NBXplorer
 {
 	public partial class NBXplorerNetworkProvider
@@ -27,7 +26,7 @@ namespace NBXplorer
 			InitColossus(networkType);
 			InitEthereum(networkType);
 			NetworkType = networkType;
-			foreach (var chain in _Networks.Values)
+			foreach (NBXplorerNetwork chain in _Networks.Values)
 			{
 				chain.DerivationStrategyFactory = new DerivationStrategy.DerivationStrategyFactory(chain.NBitcoinNetwork);
 			}
@@ -50,10 +49,20 @@ namespace NBXplorer
 			return _Networks.Values;
 		}
 
-		Dictionary<string, NBXplorerNetwork> _Networks = new Dictionary<string, NBXplorerNetwork>();
+		private Dictionary<string, NBXplorerNetwork> _Networks = new Dictionary<string, NBXplorerNetwork>();
 		private void Add(NBXplorerNetwork network)
 		{
 			_Networks.Add(network.CryptoCode, network);
+		}
+
+		public EthereumXplorerNetwork GetEth(string cryptoCode)
+		{
+			return GetEths().SingleOrDefault(t => t.CryptoCode.Equals(cryptoCode, StringComparison.InvariantCulture));
+		}
+
+		public IEnumerable<EthereumXplorerNetwork> GetEths()
+		{
+			return GetAll().OfType<EthereumXplorerNetwork>();
 		}
 	}
 }
