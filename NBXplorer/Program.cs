@@ -58,7 +58,9 @@ namespace NBXplorer
 					})
 					.UseStartup<Startup>()
 					.Build();
-				host.Run();
+
+				host.StartWithTasksAsync().GetAwaiter().GetResult();
+				//host.Run();
 			}
 			catch(ConfigException ex)
 			{

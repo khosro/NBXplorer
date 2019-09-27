@@ -1,23 +1,51 @@
-﻿using EthereumXplorer.Config;
+﻿using EthereumXplorer;
+using EthereumXplorer.Config;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Hosting;
 using NBXplorer.Ethereum;
 using System;
 using System.IO;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using XplorerUtil;
 
 namespace NBXplorer
 {
+
 	public static class EthereumExtensions
 	{
 		private const string EthereumClientDbInfo = "for EthereumClient";
 
+		public static async Task StartWithTasksAsync(this IWebHost webHost, CancellationToken cancellationToken = default)
+		{
+			// Load all tasks from DI
+			System.Collections.Generic.IEnumerable<IStartupTask> startupTasks = webHost.Services.GetServices<IStartupTask>();
+
+			// Execute all the tasks
+			foreach (IStartupTask startupTask in startupTasks)
+			{
+				await startupTask.ExecuteAsync(cancellationToken).ConfigureAwait(false);
+			}
+
+			/*
+			 * Do not run the following code.If an exception throw in BitcoinDWaiter.cs -> StartLoop -> StepAsync -> TestRPCAsync,then try catch does not work
+			 * around StepAsync
+			 * await webHost.StartAsync(cancellationToken).ConfigureAwait(false);
+			 */
+			webHost.Run();
+		}
+
 		public static IServiceCollection AddEthereumLike1(this IServiceCollection services)
 		{
 			services.AddSingleton(s => s.ConfigureEthereumConfiguration());
-			services.TryAddSingleton<EthereumDWaiters>();
-			services.TryAddSingleton<EthereumServiceListener>();
+			services.AddSingleton<IHostedService, EthereumServiceListener>();
+			services.AddSingleton<EthereumDWaiters>();
+			services.AddSingleton<IHostedService, EthereumDWaiters>();
+			services.AddEthereumLike();
+
 			return services;
 		}
 
@@ -31,8 +59,7 @@ namespace NBXplorer
 				.Split(',', StringSplitOptions.RemoveEmptyEntries)
 				.Select(t => t.ToUpperInvariant());
 
-			System.Collections.Generic.IEnumerable<EthereumXplorerNetwork> supportedNetworks = nbXplorerNetworkProvider.GetAll()
-				.OfType<EthereumXplorerNetwork>();
+			System.Collections.Generic.IEnumerable<EthereumXplorerNetwork> supportedNetworks = nbXplorerNetworkProvider.GetEths();
 
 			foreach (EthereumXplorerNetwork net in supportedNetworks)
 			{

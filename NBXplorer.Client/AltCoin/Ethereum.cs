@@ -1,109 +1,37 @@
 ﻿using NBitcoin;
-using NBitcoin.Crypto;
-using System.Linq;
+using System;
 
 namespace NBXplorer.Client.AltCoin
 {
-	public class Ethereum : NetworkSetBase
+
+	public class Ethereum : INetworkSet
 	{
-		public static Ethereum Instance { get; } = new Ethereum();
-
-		public override string CryptoCode => "ETH";
-
 		private Ethereum()
 		{
 
 		}
-		public class EthreumConsensusFactory : ConsensusFactory
+		public static Ethereum Instance { get; } = new Ethereum();
+
+		public Network Mainnet => Network.Main;
+
+		public Network Testnet => Network.TestNet;
+
+		public Network Regtest => Network.RegTest;
+
+		public string CryptoCode => "ETH";
+
+		public Network GetNetwork(NetworkType networkType)
 		{
-			private EthreumConsensusFactory()
+			switch (networkType)
 			{
+				case NetworkType.Mainnet:
+					return Mainnet;
+				case NetworkType.Testnet:
+					return Testnet;
+				case NetworkType.Regtest:
+					return Regtest;
 			}
-
-			public static EthreumConsensusFactory Instance { get; } = new EthreumConsensusFactory();
-
-			public override BlockHeader CreateBlockHeader()
-			{
-				return new EthreumBlockHeader();
-			}
-			public override Block CreateBlock()
-			{
-				return new EthreumBlock(new EthreumBlockHeader());
-			}
+			throw new NotSupportedException(networkType.ToString());
 		}
-
-#pragma warning disable CS0618 // Type or member is obsolete
-		public class EthreumBlockHeader : BlockHeader
-		{
-			private static byte[] CalculateHash(byte[] data, int offset, int count)
-			{
-				return new NBitcoin.Altcoins.HashX11.X11().ComputeBytes(data.Skip(offset).Take(count).ToArray());
-			}
-
-			protected override HashStreamBase CreateHashStream()
-			{
-				return BufferedHashStream.CreateFrom(CalculateHash, 80);
-			}
-		}
-
-		public class EthreumBlock : Block
-		{
-#pragma warning disable CS0612 // Type or member is obsolete
-			public EthreumBlock(EthreumBlockHeader h) : base(h)
-#pragma warning restore CS0612 // Type or member is obsolete
-			{
-
-			}
-			public override ConsensusFactory GetConsensusFactory()
-			{
-				return EthreumConsensusFactory.Instance;
-			}
-		}
-#pragma warning restore CS0618 // Type or member is obsolete
-
-
-		protected override void PostInit()
-		{
-			RegisterDefaultCookiePath("EthreumCore");
-		}
-
-		protected override NetworkBuilder CreateMainnet()
-		{
-			NetworkBuilder builder = new NetworkBuilder();
-			builder.SetConsensus(new Consensus()
-			{
-				ConsensusFactory = EthreumConsensusFactory.Instance,
-				SupportSegwit = false
-			})
-			.SetName("Ethreum-main");
-			return builder;
-		}
-
-		protected override NetworkBuilder CreateTestnet()
-		{
-			NetworkBuilder builder = new NetworkBuilder();
-			builder.SetConsensus(new Consensus()
-			{
-				ConsensusFactory = EthreumConsensusFactory.Instance,
-				SupportSegwit = false
-			})
-			.SetName("Ethreum-Testnet");
-			return builder;
-		}
-
-		protected override NetworkBuilder CreateRegtest()
-		{
-			NetworkBuilder builder = new NetworkBuilder();
-			builder.SetConsensus(new Consensus()
-			{
-				ConsensusFactory = EthreumConsensusFactory.Instance,
-				SupportSegwit = false
-			})
-			.SetName("Ethreum-Regtest");
-			return builder;
-		}
-
-
 	}
 }
-

@@ -42,7 +42,7 @@ namespace NBXplorer
 							  EventAggregator eventAggregator)
 		{
 			_Waiters = networkProvider
-				.GetAll()
+				.GetAllExcludeSome()
 				.Select(s => (Repository: repositoryProvider.GetRepository(s),
 							  RPCClient: rpcProvider.GetRPCClient(s),
 							  Chain: chains.GetChain(s),

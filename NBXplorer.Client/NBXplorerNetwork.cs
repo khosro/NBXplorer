@@ -1,10 +1,6 @@
 ﻿using NBitcoin;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace NBXplorer
 {
@@ -16,16 +12,11 @@ namespace NBXplorer
 			CryptoCode = networkSet.CryptoCode;
 			DefaultSettings = NBXplorerDefaultSettings.GetDefaultSettings(networkType);
 		}
+
 		public Network NBitcoinNetwork
 		{
 			get;
 			private set;
-		}
-		
-		public int MinRPCVersion
-		{
-			get;
-			internal set;
 		}
 		public string CryptoCode
 		{
@@ -36,6 +27,11 @@ namespace NBXplorer
 		{
 			get;
 			private set;
+		}
+		public int MinRPCVersion
+		{
+			get;
+			internal set;
 		}
 
 		public DerivationStrategy.DerivationStrategyFactory DerivationStrategyFactory
@@ -60,16 +56,7 @@ namespace NBXplorer
 			}
 		}
 
-
-		public JsonSerializerSettings JsonSerializerSettings
-		{
-			get
-			{
-				return Serializer.Settings;
-			}
-		}
-
-		
+		public JsonSerializerSettings JsonSerializerSettings => Serializer.Settings;
 
 		public TimeSpan ChainLoadingTimeout
 		{

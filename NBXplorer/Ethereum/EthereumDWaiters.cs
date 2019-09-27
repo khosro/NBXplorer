@@ -15,7 +15,6 @@ using System.Threading.Tasks;
 
 namespace NBXplorer.Ethereum
 {
-
 	public class EthereumDWaiters : IHostedService
 	{
 		private Dictionary<string, EthereumDWaiter> _Waiters;
@@ -29,10 +28,10 @@ namespace NBXplorer.Ethereum
 							  EthereumXplorerClientProvider rpcProvider,
 							  EventAggregator eventAggregator)
 		{
-
+			_Waiters = new Dictionary<string, EthereumDWaiter>();
 			foreach (EthereumConfig setting in config.EthereumConfigs)
 			{
-				NBXplorerNetwork network = networkProvider.GetFromCryptoCode(setting.CryptoCode);
+				EthereumXplorerNetwork network = networkProvider.GetEth(setting.CryptoCode);
 				_Waiters.Add(setting.CryptoCode, new EthereumDWaiter(rpcProvider.GetEthereumClient(setting.CryptoCode),
 												setting,
 												network,
@@ -72,9 +71,8 @@ namespace NBXplorer.Ethereum
 	public class EthereumDWaiter : IHostedService
 	{
 		private EthereumXplorerClient _OriginalRPC;
-		private NBXplorerNetwork _Network;
+		private EthereumXplorerNetwork _Network;
 		private readonly EthereumConfig _Configuration;
-		private readonly ExplorerBehavior _ExplorerPrototype;
 		private EventAggregator _EventAggregator;
 		private readonly string RPCReadyFile;
 		private EthereumExplorerBehavior explorer;
@@ -82,7 +80,7 @@ namespace NBXplorer.Ethereum
 		public EthereumDWaiter(
 			EthereumXplorerClient rpc,
 			EthereumConfig configuration,
-			NBXplorerNetwork network,
+			EthereumXplorerNetwork network,
 			Repository repository,
  			EventAggregator eventAggregator, string signalFilesDir)
 		{
@@ -101,7 +99,7 @@ namespace NBXplorer.Ethereum
 			private set;
 		}
 
-		public NBXplorerNetwork Network => _Network;
+		public EthereumXplorerNetwork Network => _Network;
 
 		public BitcoinDWaiterState State
 		{
@@ -195,8 +193,6 @@ namespace NBXplorer.Ethereum
 			catch { }
 			EnsureRPCReadyFileDeleted();
 		}
-
-		private readonly bool _BanListLoaded;
 
 		private async Task<bool> StepAsync(CancellationToken token)
 		{

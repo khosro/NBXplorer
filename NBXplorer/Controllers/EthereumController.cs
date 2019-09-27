@@ -1,11 +1,14 @@
 ﻿using EthereumXplorer;
 using EthereumXplorer.Client;
+using EthereumXplorer.Client.Models;
+using EthereumXplorer.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NBXplorer.Ethereum;
 using NBXplorer.Models;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Net.WebSockets;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,25 +17,26 @@ namespace NBXplorer.Controllers
 {
 	[Route("v1/eth")]
 	[Authorize]
-	public class EthereumController : Controller
+	public partial class EthereumController : Controller
 	{
 		private readonly EventAggregator _EventAggregator;
 		private readonly JsonSerializerSettings _SerializerSettings;
-
+		private readonly EthereumXplorerClientProvider _EthereumXplorerClientProvider;
 		public EthereumDWaiters Waiters
 		{
 			get; set;
 		}
-		public EthereumController(
-  			EventAggregator eventAggregator,
-			EthereumDWaiters waiters,
- 			KeyPathTemplates keyPathTemplates,
 
-			MvcNewtonsoftJsonOptions jsonOptions)
+		EthereumXplorerClient _EthereumXplorerClient(string crytoCode)
+		{
+			return _EthereumXplorerClientProvider.GetEthereumClient(crytoCode);
+		}
+		public EthereumController(EventAggregator eventAggregator, EthereumDWaiters waiters, MvcNewtonsoftJsonOptions jsonOptions, EthereumXplorerClientProvider ethereumXplorerClientProvider)
 		{
 			_SerializerSettings = jsonOptions.SerializerSettings;
 			_EventAggregator = eventAggregator;
 			Waiters = waiters;
+			_EthereumXplorerClientProvider = ethereumXplorerClientProvider;
 		}
 
 		[HttpGet]
@@ -75,6 +79,64 @@ namespace NBXplorer.Controllers
 			return new EmptyResult();
 		}
 
+		[HttpGet]
+		[Route("cryptos/{CryptoCode}/transid/{txId}")]
+		public async Task<IActionResult> GetTransactionAsyncByTransactionId(string cryptoCode, string transid)
+		{
+			EthereumXplorer.Models.EthereumClientTransactionData trans = await _EthereumXplorerClient(cryptoCode).GetTransactionAsyncByTransactionId(transid);
+			return Json(trans);
+		}
+
+		[HttpGet]
+		[Route("cryptos/{cryptoCode}/status")]
+		public async Task<IActionResult> GetStatus(string cryptoCode)
+		{
+			EthereumXplorer.Client.Models.EthereumStatusResult statusResult = await _EthereumXplorerClient(cryptoCode).GetStatusAsync();
+			return Json(statusResult);
+		}
+
+		[HttpGet]
+		[Route("txs/cryptos/{CryptoCode}/mnemonic/{mnemonic}")]
+		public async Task<IActionResult> GetTransactionsAsync(string cryptoCode, string mnemonic)
+		{
+			IEnumerable<EthereumClientTransactionData> trans = await _EthereumXplorerClient(cryptoCode).GetTransactionsAsync(mnemonic);
+			return Json(trans);
+		}
+
+
+		[HttpGet]
+		[Route("cryptos/{CryptoCode}/address/{address}")]
+		public async Task<IActionResult> GetBalance(string cryptoCode, string address)
+		{
+			decimal value = await _EthereumXplorerClient(cryptoCode).GetBalance(address);
+			return Json(value);
+		}
+
+		[HttpGet]
+		[Route("cryptos/{CryptoCode}/mnemonic/{mnemonic}")]
+		public async Task<IActionResult> GetBalanceByMnemonic(string cryptoCode, string mnemonic)
+		{
+			Dictionary<string, decimal> value = await _EthereumXplorerClient(cryptoCode).GetBalanceByMnemonic(mnemonic);
+			return Json(value);
+		}
+
+		[HttpGet]
+		[Route("cryptos/{CryptoCode}/addresses/{addresses}")]
+		public async Task<IActionResult> GetBalances(string cryptoCode, IEnumerable<string> addresses)
+		{
+			Dictionary<string, decimal> value = await _EthereumXplorerClient(cryptoCode).GetBalances(addresses);
+			return Json(value);
+		}
+
+		[HttpGet]
+		[Route("cryptos/{CryptoCode}/ethWalletSendModel/{ethWalletSendModel}/mnemonic/{mnemonic}")]
+		public async Task<IActionResult> GetBalances(string cryptoCode, EthExplorerWalletSendModel ethWalletSendModel, string mnemonic)
+		{
+			string value = await _EthereumXplorerClient(cryptoCode).BroadcastAsync(ethWalletSendModel, mnemonic);
+			return Json(value);
+		}
+
+
 		private NBXplorerNetwork GetNetwork(string cryptoCode, bool checkRPC)
 		{
 			if (cryptoCode == null)
@@ -101,3 +163,6 @@ namespace NBXplorer.Controllers
 		}
 	}
 }
+
+
+

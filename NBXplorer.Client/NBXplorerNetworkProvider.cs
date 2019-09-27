@@ -49,20 +49,17 @@ namespace NBXplorer
 			return _Networks.Values;
 		}
 
+		public IEnumerable<NBXplorerNetwork> GetAllExcludeSome()
+		{
+			return _Networks.Values.Where(t => !ExcludedTypes.Contains(t.GetType()));
+		}
+
 		private Dictionary<string, NBXplorerNetwork> _Networks = new Dictionary<string, NBXplorerNetwork>();
 		private void Add(NBXplorerNetwork network)
 		{
 			_Networks.Add(network.CryptoCode, network);
 		}
 
-		public EthereumXplorerNetwork GetEth(string cryptoCode)
-		{
-			return GetEths().SingleOrDefault(t => t.CryptoCode.Equals(cryptoCode, StringComparison.InvariantCulture));
-		}
-
-		public IEnumerable<EthereumXplorerNetwork> GetEths()
-		{
-			return GetAll().OfType<EthereumXplorerNetwork>();
-		}
+		private List<Type> ExcludedTypes = new List<Type>() { typeof(EthereumXplorerNetwork) };
 	}
 }

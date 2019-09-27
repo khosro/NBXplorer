@@ -22,9 +22,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NBitcoin.Altcoins", "..\NBi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EthereumXplorer.Client", "EthereumXplorer.Client\EthereumXplorer.Client.csproj", "{90369B56-3D47-4FFE-B863-64359B7E7B6C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EthereumXplorer", "EthereumXplorer\EthereumXplorer.csproj", "{457FACAD-4B7C-477E-8D37-0FE9ADBA601F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EthereumXplorer", "EthereumXplorer\EthereumXplorer.csproj", "{457FACAD-4B7C-477E-8D37-0FE9ADBA601F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EthereumXplorer.Models", "EthereumXplorer.Models\EthereumXplorer.Models.csproj", "{FB58C450-F371-4906-9020-891F7097D7B7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EthereumXplorer.Models", "EthereumXplorer.Models\EthereumXplorer.Models.csproj", "{FB58C450-F371-4906-9020-891F7097D7B7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XplorerUtil", "XplorerUtil\XplorerUtil.csproj", "{AD415E35-A826-443E-AEA2-F950DCB8103B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -64,6 +66,10 @@ Global
 		{FB58C450-F371-4906-9020-891F7097D7B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB58C450-F371-4906-9020-891F7097D7B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB58C450-F371-4906-9020-891F7097D7B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD415E35-A826-443E-AEA2-F950DCB8103B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD415E35-A826-443E-AEA2-F950DCB8103B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD415E35-A826-443E-AEA2-F950DCB8103B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD415E35-A826-443E-AEA2-F950DCB8103B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

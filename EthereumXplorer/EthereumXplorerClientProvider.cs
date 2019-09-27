@@ -60,8 +60,6 @@ namespace EthereumXplorer
 			return GetEthereumClient(network.CryptoCode);
 		}
 
-
-
 		public EthereumXplorerNetwork GetFromCryptoCode(string cryptoCode)
 		{
 			EthereumXplorerNetwork network = _NetworkProviders.GetEth(cryptoCode);

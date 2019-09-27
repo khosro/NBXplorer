@@ -1,14 +1,14 @@
 ﻿using EthereumXplorer;
 using EthereumXplorer.Data;
 using EthereumXplorer.Loggging;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace NBXplorer.Ethereum
 {
-	public class EthereumServiceListener
+	public class EthereumServiceListener : IHostedService
 	{
 
 		private EventAggregator _Aggregator;
@@ -22,8 +22,6 @@ namespace NBXplorer.Ethereum
 								Microsoft.Extensions.Hosting.IApplicationLifetime lifetime,
 								 EthereumClientTransactionRepository ethereumClientTransactionRepository)
 		{
-			PollInterval = TimeSpan.FromMinutes(1.0);
-
 			_EthereumClients = EthereumClients;
 			_Aggregator = aggregator;
 			_Lifetime = lifetime;
@@ -31,20 +29,6 @@ namespace NBXplorer.Ethereum
 		}
 
 		private CompositeDisposable leases = new CompositeDisposable();
-		private Timer _ListenPoller;
-		private TimeSpan _PollInterval;
-		public TimeSpan PollInterval
-		{
-			get => _PollInterval;
-			set
-			{
-				_PollInterval = value;
-				if (_ListenPoller != null)
-				{
-					_ListenPoller.Change(0, (int)value.TotalMilliseconds);
-				}
-			}
-		}
 
 		public Task StartAsync(CancellationToken cancellationToken)
 		{

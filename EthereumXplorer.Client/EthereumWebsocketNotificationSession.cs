@@ -27,7 +27,7 @@ namespace EthereumXplorer.Client
 
 		internal async Task ConnectAsync(CancellationToken cancellation)
 		{
-			string uri = _Client.GetFullUri($"eth/v1/cryptos/{_Client.CryptoCode}/connect", null);
+			string uri = _Client.GetFullUri($"v1/eth/cryptos/{_Client.CryptoCode}/connect", null);
 			uri = ToWebsocketUri(uri);
 			WebSocket socket = null;
 			try

@@ -89,48 +89,44 @@ namespace EthereumXplorer.Client
 			return uri;
 		}
 
-		public async Task<EthereumClientTransactionData> GetTransactionAsyncByTransactionId(string txId)
+		public async Task<EthereumClientTransactionData> GetTransactionAsyncByTransactionId(string txId, CancellationToken cancellation = default)
 		{
-			if (txId == null)
+			if (string.IsNullOrWhiteSpace(txId))
 			{
 				throw new ArgumentNullException(nameof(txId));
 			}
-
-			return null;
+			return await SendAsync<EthereumClientTransactionData>(HttpMethod.Get, null, $"v1/eth/cryptos/{CryptoCode}/transid/{txId}", null, cancellation);
 		}
 
 		public async Task<EthereumStatusResult> GetStatusAsync(CancellationToken cancellation = default)
 		{
-			return null;
+			return await SendAsync<EthereumStatusResult>(HttpMethod.Get, null, $"v1/eth/cryptos/{CryptoCode}/status", null, cancellation);
 		}
 
-		public Task<IEnumerable<string>> FetchTransactions(string paymentMethod)
+		public async Task<IEnumerable<EthereumClientTransactionData>> GetTransactionsAsync(string mnemonic, CancellationToken cancellation = default)
 		{
-			return null;
+			//TODO.It is insecure.
+			return await SendAsync<IEnumerable<EthereumClientTransactionData>>(HttpMethod.Get, null, $"v1/eth/txs/cryptos/{CryptoCode}/mnemonic/{mnemonic}", null, cancellation);
 		}
 
-		public async Task<decimal> GetBalance(string address)
+		public async Task<decimal> GetBalance(string address, CancellationToken cancellation = default)
 		{
-			return 0;
+			return await SendAsync<decimal>(HttpMethod.Get, null, $"v1/eth/cryptos/{CryptoCode}/address/{address}", null, cancellation);
 		}
 
-		public async Task<IEnumerable<EthereumClientTransactionData>> GetTransactionsAsync(string mnemonic)
+		public async Task<Dictionary<string, decimal>> GetBalanceByMnemonic(string mnemonic, CancellationToken cancellation = default)
 		{
-			return null;
-		}
-		public async Task<Dictionary<string, decimal>> GetBalanceByMnemonic(string mnemonic)
-		{
-			return null;
+			return await SendAsync<Dictionary<string, decimal>>(HttpMethod.Get, null, $"v1/eth/cryptos/{CryptoCode}/mnemonic/{mnemonic}", null, cancellation);
 		}
 
-		public async Task<Dictionary<string, decimal>> GetBalances(IEnumerable<string> addresses)
+		public async Task<Dictionary<string, decimal>> GetBalances(IEnumerable<string> addresses, CancellationToken cancellation = default)
 		{
-			return null;
+			return await SendAsync<Dictionary<string, decimal>>(HttpMethod.Get, null, $"v1/eth/cryptos/{CryptoCode}/addresses/{addresses}", null, cancellation);
 		}
 
-		public async Task<string> BroadcastAsync(EthExplorerWalletSendModel ethWalletSendModel, string mnemonic)
+		public async Task<string> BroadcastAsync(EthExplorerWalletSendModel ethWalletSendModel, string mnemonic, CancellationToken cancellation = default)
 		{
-			return "";
+			return await SendAsync<string>(HttpMethod.Post, null, $"v1/eth/cryptos/{CryptoCode}/ethWalletSendModel/{ethWalletSendModel}/mnemonic/{mnemonic}", null, cancellation);
 		}
 
 		public async Task<EthereumWebsocketNotificationSession> CreateWebsocketNotificationSessionAsync(CancellationToken cancellation = default)

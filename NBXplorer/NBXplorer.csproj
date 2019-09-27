@@ -30,6 +30,7 @@
 	  <PackageReference Include="NicolasDorier.CommandLine.Configuration" Version="1.0.0.3" />
 	  <ProjectReference Include="..\EthereumXplorer\EthereumXplorer.csproj" />
     <ProjectReference Include="..\NBXplorer.Client\NBXplorer.Client.csproj" />
+    <ProjectReference Include="..\XplorerUtil\XplorerUtil.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">

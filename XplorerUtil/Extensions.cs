@@ -2,12 +2,11 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace EthereumXplorer
+namespace XplorerUtil
 {
 	public static class Extensions
 	{
-		public static IServiceCollection AddStartupTask<T>(this IServiceCollection services)
-	  where T : class, IStartupTask
+		public static IServiceCollection AddStartupTask<T>(this IServiceCollection services) where T : class, IStartupTask
 		{
 			return services.AddTransient<IStartupTask, T>();
 		}
@@ -16,4 +15,5 @@ namespace EthereumXplorer
 	{
 		Task ExecuteAsync(CancellationToken cancellationToken = default);
 	}
+
 }

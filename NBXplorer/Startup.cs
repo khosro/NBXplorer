@@ -1,24 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using Microsoft.AspNetCore.Mvc;
-using NBitcoin.JsonConverters;
-using Microsoft.Extensions.Options;
-using Microsoft.Net.Http.Headers;
-using Microsoft.AspNetCore.Mvc.Formatters;
-using Microsoft.AspNetCore.Http.Features;
-using NBXplorer.Filters;
 using NBXplorer.Logging;
-using Microsoft.AspNetCore.Authentication;
-using NBXplorer.Authentication;
-using EthereumXplorer;
 #if NETCOREAPP21
 using IWebHostEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 #else
@@ -48,9 +34,8 @@ namespace NBXplorer
 			});
 			services.AddNBXplorer();
 			services.AddEthereumLike1();
-			services.AddEthereumLike();
 			services.ConfigureNBxplorer(Configuration);
-			var builder = services.AddMvcCore();
+			IMvcCoreBuilder builder = services.AddMvcCore();
 #if NETCOREAPP21
 			builder.AddJsonFormatters();
 #else
@@ -73,7 +58,7 @@ namespace NBXplorer
 			CookieRepository cookieRepository)
 		{
 			cookieRepository.Initialize();
-			if(env.IsDevelopment())
+			if (env.IsDevelopment())
 			{
 				app.UseDeveloperExceptionPage();
 			}
