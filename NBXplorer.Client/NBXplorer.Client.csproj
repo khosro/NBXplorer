@@ -16,13 +16,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="NBitcoin" Version="4.2.14" />
+		<PackageReference Include="NBitcoin.Altcoins" Version="1.0.4" />
 		<PackageReference Include="NicolasDorier.StandardConfiguration" Version="1.0.0.18" />
 		<PackageReference Include="System.Net.WebSockets.Client" Version="4.3.2" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <ProjectReference Include="..\..\NBitcoin\NBitcoin-4.1.3\NBitcoin.Altcoins\NBitcoin.Altcoins.csproj" />
-	  <ProjectReference Include="..\..\NBitcoin\NBitcoin-4.1.3\NBitcoin\NBitcoin.csproj" />
 	</ItemGroup>
 
 </Project>

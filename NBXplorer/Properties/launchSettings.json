@@ -35,7 +35,7 @@
     },
     "newProfile2-sherkat": {
       "commandName": "Project",
-      "commandLineArgs": "--conf=\"D:\\1.New Project\\BitCoin\\z.Sample_Trading Engine\\btcpayserver\\NBXplorer\\NBXplorer.config\"   -regtest --chains \"btc\" --datadir  \"D:\\1.New Project\\BitCoin\\z.Sample_Trading Engine\\btcpayserver\\NBXplorer\\data\"",
+      "commandLineArgs": "--conf=\"D:\\1.New Project\\BitCoin\\z.Sample_Trading Engine\\btcpayserver\\NBXplorer\\NBXplorer.config\"   -regtest --chains \"btc,eth\" --datadir  \"D:\\1.New Project\\BitCoin\\z.Sample_Trading Engine\\btcpayserver\\NBXplorer\\data\"",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

@@ -70,7 +70,7 @@ namespace NBXplorer.Ethereum
 
 	public class EthereumDWaiter : IHostedService
 	{
-		private EthereumXplorerClient _OriginalRPC;
+		private EthereumXplorerClient _EthereumXplorerClient;
 		private EthereumXplorerNetwork _Network;
 		private readonly EthereumConfig _Configuration;
 		private EventAggregator _EventAggregator;
@@ -78,14 +78,14 @@ namespace NBXplorer.Ethereum
 		private EthereumExplorerBehavior explorer;
 
 		public EthereumDWaiter(
-			EthereumXplorerClient rpc,
+			EthereumXplorerClient ethereumXplorerClient,
 			EthereumConfig configuration,
 			EthereumXplorerNetwork network,
 			Repository repository,
  			EventAggregator eventAggregator, string signalFilesDir)
 		{
 
-			_OriginalRPC = rpc;
+			_EthereumXplorerClient = ethereumXplorerClient;
 			_Configuration = configuration;
 			_Network = network;
 			State = BitcoinDWaiterState.NotStarted;
@@ -200,7 +200,7 @@ namespace NBXplorer.Ethereum
 			switch (State)
 			{
 				case BitcoinDWaiterState.NotStarted:
-					_OriginalRPC.Init();
+					_EthereumXplorerClient.Init();
 					try
 					{
 						//TODO. Call GetBlockchainInfoAsyncEx LoadBanList
@@ -210,7 +210,7 @@ namespace NBXplorer.Ethereum
 						Logs.Configuration.LogError(ex, $"{_Network.CryptoCode}: Failed to connect to RPC");
 						break;
 					}
-					if (!(await _OriginalRPC.GetStatusAsync(token)).IsFullySynched)
+					if (!(await _EthereumXplorerClient.GetStatusAsync(token)).IsFullySynched)
 					{
 						State = BitcoinDWaiterState.CoreSynching;
 					}
@@ -222,7 +222,7 @@ namespace NBXplorer.Ethereum
 					break;
 				case BitcoinDWaiterState.CoreSynching:
 					//TODO GetBlockchainInfoAsyncEx
-					if ((await _OriginalRPC.GetStatusAsync(token)).IsFullySynched)
+					if ((await _EthereumXplorerClient.GetStatusAsync(token)).IsFullySynched)
 					{
 						ConnectToEthereumD(token);
 						State = BitcoinDWaiterState.NBXplorerSynching;
@@ -279,14 +279,25 @@ namespace NBXplorer.Ethereum
 		private void ConnectToEthereumD(CancellationToken cancellation)
 		{
 			explorer = new EthereumExplorerBehavior();
-			_OriginalRPC.PendingTransactionsSubscription.GetSubscribeResponseAsObservable().Subscribe(subscriptionId =>
-					Console.WriteLine("subscriptionId : " + subscriptionId)
+
+			_EthereumXplorerClient.CreateWebSocketClient();
+
+			_EthereumXplorerClient.PendingTransactionsSubscription.GetSubscribeResponseAsObservable().Subscribe(subscriptionId =>
+					Console.WriteLine("Eth subscriptionId : " + subscriptionId)
 			);
 
-			_OriginalRPC.PendingTransactionsSubscription.GetSubscriptionDataResponsesAsObservable().Subscribe(async transactionHash =>
-				_EventAggregator.Publish(new EthNewTransactionEvent(await _OriginalRPC.GetTransactionAsyncByTransactionId(transactionHash).ConfigureAwait(false), _Network.CryptoCode))
+			_EthereumXplorerClient.PendingTransactionsSubscription.GetSubscriptionDataResponsesAsObservable().Subscribe(async transactionHash =>
+				await PendingTransactionsSubscriptionAsync(transactionHash)
 			  );
-			Logs.Explorer.LogInformation($"{_Network.CryptoCode}: Connect to ConnectToEthereumD");
+
+			_EthereumXplorerClient.Subscribe();
+
+			EthereumXplorer.Loggging.Logs.EthereumXplorer.LogInformation($"{_Network.CryptoCode}: Connect to ConnectToEthereumD");
+		}
+
+		async Task PendingTransactionsSubscriptionAsync(string transactionHash)
+		{
+			_EventAggregator.Publish(new EthNewTransactionEvent(await _EthereumXplorerClient.GetTransactionAsyncByTransactionId(transactionHash).ConfigureAwait(false), _Network.CryptoCode));
 		}
 
 		private void Node_StateChanged(Node node, NodeState oldState)

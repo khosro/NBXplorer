@@ -48,12 +48,20 @@ namespace EthereumXplorer
 		public void Init()
 		{
 			_web3 = new Web3(_rpcUri.AbsoluteUri);
+		}
+
+		public void CreateWebSocketClient()
+		{
 			_streamingWebSocketClient = new StreamingWebSocketClient(_websocketUrl);
 			PendingTransactionsSubscription = new EthNewPendingTransactionObservableSubscription(_streamingWebSocketClient);
+			Logs.EthereumXplorer.LogInformation($"{_Network.CryptoCode}: CreateWebSocketClient Init ...............");
+		}
+
+		public void Subscribe()
+		{
 			_streamingWebSocketClient.StartAsync().Wait();
 			PendingTransactionsSubscription.SubscribeAsync().Wait();
-			Logs.EthereumXplorer.LogInformation($"{_Network.CryptoCode}: EthereumXplorerClient Init");
-			Console.WriteLine($"{_Network.CryptoCode}: EthereumXplorerClient Init ...........");
+			Logs.EthereumXplorer.LogInformation($"{_Network.CryptoCode}: EthereumXplorerClient Init .............");
 		}
 
 		public async Task<EthereumStatusResult> GetStatusAsync(CancellationToken cancellation = default)
