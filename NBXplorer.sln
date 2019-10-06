@@ -18,11 +18,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFi
 		Dockerfile.linuxarm64v8 = Dockerfile.linuxarm64v8
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EthereumXplorer.Client", "EthereumXplorer.Client\EthereumXplorer.Client.csproj", "{90369B56-3D47-4FFE-B863-64359B7E7B6C}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EthereumXplorer", "EthereumXplorer\EthereumXplorer.csproj", "{457FACAD-4B7C-477E-8D37-0FE9ADBA601F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XplorerUtil", "XplorerUtil\XplorerUtil.csproj", "{AD415E35-A826-443E-AEA2-F950DCB8103B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EthereumXplorer.Client", "EthereumXplorer.Client\EthereumXplorer.Client.csproj", "{3E3372BA-2881-46F9-8D0E-4E956C481160}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,10 +42,6 @@ Global
 		{D62CE99D-C25A-407F-8104-0BEFD12A3B5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D62CE99D-C25A-407F-8104-0BEFD12A3B5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D62CE99D-C25A-407F-8104-0BEFD12A3B5D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{90369B56-3D47-4FFE-B863-64359B7E7B6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{90369B56-3D47-4FFE-B863-64359B7E7B6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{90369B56-3D47-4FFE-B863-64359B7E7B6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{90369B56-3D47-4FFE-B863-64359B7E7B6C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{457FACAD-4B7C-477E-8D37-0FE9ADBA601F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{457FACAD-4B7C-477E-8D37-0FE9ADBA601F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{457FACAD-4B7C-477E-8D37-0FE9ADBA601F}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -54,6 +50,10 @@ Global
 		{AD415E35-A826-443E-AEA2-F950DCB8103B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD415E35-A826-443E-AEA2-F950DCB8103B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD415E35-A826-443E-AEA2-F950DCB8103B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E3372BA-2881-46F9-8D0E-4E956C481160}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E3372BA-2881-46F9-8D0E-4E956C481160}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E3372BA-2881-46F9-8D0E-4E956C481160}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E3372BA-2881-46F9-8D0E-4E956C481160}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
