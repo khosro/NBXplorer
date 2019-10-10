@@ -14,7 +14,6 @@ using XplorerUtil;
 
 namespace NBXplorer
 {
-
 	public static class EthereumExtensions
 	{
 		private const string EthereumClientDbInfo = "for EthereumClient";
@@ -38,13 +37,13 @@ namespace NBXplorer
 			webHost.Run();
 		}
 
-		public static IServiceCollection AddEthereumLike1(this IServiceCollection services)
+		public static IServiceCollection AddEthereumLike(this IServiceCollection services)
 		{
 			services.AddSingleton(s => s.ConfigureEthereumConfiguration());
 			services.AddSingleton<IHostedService, EthereumServiceListener>();
 			services.AddSingleton<EthereumDWaiters>();
 			services.AddSingleton<IHostedService, EthereumDWaiters>();
-			services.AddEthereumLike();
+			services.AddEthereumServices();
 
 			return services;
 		}

@@ -33,7 +33,7 @@ namespace NBXplorer
 				httpClient.Timeout = System.Threading.Timeout.InfiniteTimeSpan;
 			});
 			services.AddNBXplorer();
-			services.AddEthereumLike1();
+			services.AddEthereumLike();
 			services.ConfigureNBxplorer(Configuration);
 			IMvcCoreBuilder builder = services.AddMvcCore();
 #if NETCOREAPP21

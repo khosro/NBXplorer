@@ -16,7 +16,7 @@ namespace EthereumXplorer
 	{
 		private const string EthereumClientDbInfo = "for EthereumClient";
 
-		public static IServiceCollection AddEthereumLike(this IServiceCollection services)
+		public static IServiceCollection AddEthereumServices(this IServiceCollection services)
 		{
 			Database(services);
 			services.TryAddSingleton<EthereumXplorerClientProvider>();

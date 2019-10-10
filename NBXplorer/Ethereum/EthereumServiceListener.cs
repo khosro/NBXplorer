@@ -10,21 +10,14 @@ namespace NBXplorer.Ethereum
 {
 	public class EthereumServiceListener : IHostedService
 	{
-
 		private EventAggregator _Aggregator;
-		private readonly EthereumXplorerClientProvider _EthereumClients;
-		private readonly Microsoft.Extensions.Hosting.IApplicationLifetime _Lifetime;
 		private TaskCompletionSource<bool> _RunningTask;
 		private CancellationTokenSource _Cts;
 		private EthereumClientTransactionRepository _ethereumClientTransactionRepository;
-		public EthereumServiceListener(EthereumXplorerClientProvider EthereumClients,
- 								EventAggregator aggregator,
-								Microsoft.Extensions.Hosting.IApplicationLifetime lifetime,
+		public EthereumServiceListener(EventAggregator aggregator,
 								 EthereumClientTransactionRepository ethereumClientTransactionRepository)
 		{
-			_EthereumClients = EthereumClients;
 			_Aggregator = aggregator;
-			_Lifetime = lifetime;
 			_ethereumClientTransactionRepository = ethereumClientTransactionRepository;
 		}
 
