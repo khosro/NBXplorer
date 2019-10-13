@@ -44,8 +44,8 @@ namespace NBXplorer.Ethereum
 		public Task StopAsync(CancellationToken cancellationToken)
 		{
 			leases.Dispose();
-			_Cts.Cancel();
-			return Task.WhenAny(_RunningTask.Task, Task.Delay(-1, cancellationToken));
+			_Cts?.Cancel();
+			return Task.WhenAny(_RunningTask?.Task, Task.Delay(-1, cancellationToken));
 		}
 	}
 }
