@@ -119,17 +119,10 @@ namespace NBXplorer.Controllers
 			return Json(value);
 		}
 
-		[HttpGet]
-		[Route("cryptos/{CryptoCode}/addresses/{addresses}")]
-		public async Task<IActionResult> GetBalances(string cryptoCode, IEnumerable<string> addresses)
-		{
-			Dictionary<string, decimal> value = await _EthereumXplorerClient(cryptoCode).GetBalances(addresses);
-			return Json(value);
-		}
-
-		[HttpGet]
-		[Route("cryptos/{CryptoCode}/ethWalletSendModel/{ethWalletSendModel}/mnemonic/{mnemonic}")]
-		public async Task<IActionResult> GetBalances(string cryptoCode, EthExplorerWalletSendModel ethWalletSendModel, string mnemonic)
+		[HttpPost]
+		[Route("cryptos/{cryptoCode}/mnemonic/{mnemonic}")]
+		public async Task<IActionResult> BroadcastAsync(string cryptoCode,
+			 string mnemonic, [FromBody]  EthExplorerWalletSendModel ethWalletSendModel)
 		{
 			string value = await _EthereumXplorerClient(cryptoCode).BroadcastAsync(ethWalletSendModel, mnemonic);
 			return Json(value);
