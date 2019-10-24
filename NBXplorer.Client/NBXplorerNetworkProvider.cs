@@ -25,6 +25,7 @@ namespace NBXplorer
 			InitGobyte(networkType);
 			InitColossus(networkType);
 			InitEthereum(networkType);
+			InitChaincoin(networkType);
 			NetworkType = networkType;
 			foreach (NBXplorerNetwork chain in _Networks.Values)
 			{

@@ -150,6 +150,7 @@ namespace EthereumXplorer
 			string responseBody = await response.Content.ReadAsStringAsync();
 			// Above three lines can be replaced with new helper method below
 			// string responseBody = await client.GetStringAsync(uri);
+			Logs.EthereumXplorer.LogInformation($"GetLastedBlockAsync url : {url}  \r\n responseBody : \r\n {responseBody}");
 			Eth_BlockNumber eth_BlockNumber = JsonConvert.DeserializeObject<Eth_BlockNumber>(responseBody);
 			return eth_BlockNumber.LastBlockNumber;
 		}

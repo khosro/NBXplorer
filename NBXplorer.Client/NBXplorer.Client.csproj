@@ -3,7 +3,7 @@
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<Company>Digital Garage</Company>
-		<Version>2.0.0.19</Version>
+		<Version>2.0.0.21</Version>
 		<Copyright>Copyright © Digital Garage 2017</Copyright>
 		<Description>Client API for the minimalist HD Wallet Tracker NBXplorer</Description>
 		<PackageIconUrl>https://aois.blob.core.windows.net/public/Bitcoin.png</PackageIconUrl>
@@ -20,8 +20,8 @@
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="NBitcoin" Version="4.2.15" />
-		<PackageReference Include="NBitcoin.Altcoins" Version="1.0.5" />
+		<PackageReference Include="NBitcoin" Version="4.2.16" />
+		<PackageReference Include="NBitcoin.Altcoins" Version="1.0.6" />
 		<PackageReference Include="NicolasDorier.StandardConfiguration" Version="1.0.0.18" />
 		<PackageReference Include="System.Net.WebSockets.Client" Version="4.3.2" />
 	</ItemGroup>
