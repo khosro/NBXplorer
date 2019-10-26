@@ -36,7 +36,9 @@ namespace NBXplorer.Ethereum
 
 			leases.Add(_Aggregator.Subscribe<EthNewBlockEvent>(async evt =>
 			{
+				await Task.FromResult(0);
 			}));
+
 
 			return Task.CompletedTask;
 		}

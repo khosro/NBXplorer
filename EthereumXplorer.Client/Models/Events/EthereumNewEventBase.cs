@@ -81,7 +81,7 @@ namespace EthereumXplorer.Client.Models.Events
 			string type = (jobj["type"] as JValue)?.Value<string>();
 			if (type == null)
 			{
-				throw new FormatException("'type' property not found");
+				throw new FormatException("type property not found");
 			}
 
 			bool unknown = false;
@@ -93,7 +93,7 @@ namespace EthereumXplorer.Client.Models.Events
 			JObject data = (jobj["data"] as JObject);
 			if (data == null)
 			{
-				throw new FormatException("'data' property not found");
+				throw new FormatException("data property not found");
 			}
 
 			EthereumNewEventBase evt = null;

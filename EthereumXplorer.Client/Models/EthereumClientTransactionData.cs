@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Globalization;
 using System.Numerics;
 
 namespace EthereumXplorer.Client.Models
@@ -24,18 +25,18 @@ namespace EthereumXplorer.Client.Models
 		public DateTime CreatedDateTime { get; set; }
 
 		[NotMapped]
-		public ulong NonceValue => ulong.Parse(Nonce);
+		public ulong NonceValue => ulong.Parse(Nonce, CultureInfo.InvariantCulture);
 
 		[NotMapped]
-		public ulong BlockNumberValue => ulong.Parse(Nonce);
+		public ulong BlockNumberValue => ulong.Parse(Nonce, CultureInfo.InvariantCulture);
 
 		[NotMapped]
-		public ulong TransactionIndexValue => ulong.Parse(Nonce);
+		public ulong TransactionIndexValue => ulong.Parse(Nonce, CultureInfo.InvariantCulture);
 
 		[NotMapped]
-		public BigInteger GasValue => BigInteger.Parse(Gas);
+		public BigInteger GasValue => BigInteger.Parse(Gas, CultureInfo.InvariantCulture);
 
 		[NotMapped]
-		public BigInteger GasPriceValue => BigInteger.Parse(GasPrice);
+		public BigInteger GasPriceValue => BigInteger.Parse(GasPrice, CultureInfo.InvariantCulture);
 	}
 }

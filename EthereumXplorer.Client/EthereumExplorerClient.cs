@@ -32,7 +32,7 @@ namespace EthereumXplorer.Client
 		#endregion
 		public EthereumExplorerClient(NBXplorerNetwork network, Uri serverAddress)
 		{
-			serverAddress = serverAddress ?? network.DefaultSettings.DefaultUrl;
+			serverAddress = serverAddress ?? network?.DefaultSettings.DefaultUrl;
 			_Address = serverAddress;
 			_Network = network ?? throw new ArgumentNullException(nameof(network));
 			Serializer = new Serializer(Network.NBitcoinNetwork);
@@ -104,7 +104,7 @@ namespace EthereumXplorer.Client
 
 		public async Task<IEnumerable<EthereumClientTransactionData>> GetTransactionsAsync(string mnemonic, CancellationToken cancellation = default)
 		{
-			//TODO.It is insecure.
+			//TODO.It is insecure.Use encryption and pass data by Post method
 			return await SendAsync<IEnumerable<EthereumClientTransactionData>>(HttpMethod.Get, null, $"v1/eth/txs/cryptos/{CryptoCode}/mnemonic/{mnemonic}", null, cancellation).ConfigureAwait(false);
 		}
 
@@ -115,11 +115,13 @@ namespace EthereumXplorer.Client
 
 		public async Task<Dictionary<string, decimal>> GetBalanceByMnemonic(string mnemonic, CancellationToken cancellation = default)
 		{
+			//TODO.It is insecure.Use encryption and pass data by Post method
 			return await SendAsync<Dictionary<string, decimal>>(HttpMethod.Get, null, $"v1/eth/cryptos/{CryptoCode}/mnemonic/{mnemonic}", null, cancellation).ConfigureAwait(false);
 		}
 
 		public async Task<string> BroadcastAsync(EthExplorerWalletSendModel ethWalletSendModel, string mnemonic, CancellationToken cancellation = default)
 		{
+			//TODO.It is insecure.Use encryption and pass data by Post method
 			return await SendAsync<string>(HttpMethod.Post, ethWalletSendModel, $"v1/eth/cryptos/{CryptoCode}/mnemonic/{mnemonic}", null, cancellation).ConfigureAwait(false);
 		}
 

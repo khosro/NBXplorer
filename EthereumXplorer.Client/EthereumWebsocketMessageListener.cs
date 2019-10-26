@@ -35,15 +35,15 @@ namespace EthereumXplorer.Client
 			int newSize = _Buffer.Array.Length;
 			while (true)
 			{
-				WebSocketReceiveResult message = await Socket.ReceiveAsync(buffer, cancellation);
+				WebSocketReceiveResult message = await Socket.ReceiveAsync(buffer, cancellation).ConfigureAwait(false);
 				if (message.MessageType == WebSocketMessageType.Close)
 				{
-					await CloseSocketAndThrow(WebSocketCloseStatus.NormalClosure, "Close message received from the peer", cancellation);
+					await CloseSocketAndThrow(WebSocketCloseStatus.NormalClosure, "Close message received from the peer", cancellation).ConfigureAwait(false);
 					break;
 				}
 				if (message.MessageType != WebSocketMessageType.Text)
 				{
-					await CloseSocketAndThrow(WebSocketCloseStatus.InvalidMessageType, "Only Text is supported", cancellation);
+					await CloseSocketAndThrow(WebSocketCloseStatus.InvalidMessageType, "Only Text is supported", cancellation).ConfigureAwait(false);
 					break;
 				}
 				if (message.EndOfMessage)
@@ -60,7 +60,7 @@ namespace EthereumXplorer.Client
 					}
 					catch (Exception ex)
 					{
-						await CloseSocketAndThrow(WebSocketCloseStatus.InvalidPayloadData, $"Invalid payload: {ex.Message}", cancellation);
+						await CloseSocketAndThrow(WebSocketCloseStatus.InvalidPayloadData, $"Invalid payload: {ex.Message}", cancellation).ConfigureAwait(false);
 					}
 				}
 				else
@@ -70,7 +70,7 @@ namespace EthereumXplorer.Client
 						newSize *= 2;
 						if (newSize > MAX_BUFFER_SIZE)
 						{
-							await CloseSocketAndThrow(WebSocketCloseStatus.MessageTooBig, "Message is too big", cancellation);
+							await CloseSocketAndThrow(WebSocketCloseStatus.MessageTooBig, "Message is too big", cancellation).ConfigureAwait(false);
 						}
 
 						Array.Resize(ref array, newSize);
@@ -91,7 +91,7 @@ namespace EthereumXplorer.Client
 				Array.Resize(ref array, ORIGINAL_BUFFER_SIZE);
 			}
 
-			await Socket.CloseSocket(status, description, cancellation);
+			await Socket.CloseSocket(status, description, cancellation).ConfigureAwait(false);
 			throw new WebSocketException($"The socket has been closed ({status}: {description})");
 		}
 
@@ -104,12 +104,12 @@ namespace EthereumXplorer.Client
 
 		public async Task Send<T>(T evt, CancellationToken cancellation = default) where T : EthereumNewEventBase
 		{
-			byte[] bytes = UTF8.GetBytes(evt.ToJObject(_SerializerSettings).ToString());
+			byte[] bytes = UTF8.GetBytes(evt?.ToJObject(_SerializerSettings).ToString());
 			using (CancellationTokenSource cts = new CancellationTokenSource(5000))
 			{
 				using (CancellationTokenSource cts2 = CancellationTokenSource.CreateLinkedTokenSource(cancellation))
 				{
-					await Socket.SendAsync(new ArraySegment<byte>(bytes), WebSocketMessageType.Text, true, cts2.Token);
+					await Socket.SendAsync(new ArraySegment<byte>(bytes), WebSocketMessageType.Text, true, cts2.Token).ConfigureAwait(false);
 				}
 			}
 		}
@@ -118,7 +118,7 @@ namespace EthereumXplorer.Client
 		{
 			try
 			{
-				await Socket.CloseSocket(WebSocketCloseStatus.NormalClosure, "Disposing NotificationServer", cancellation);
+				await Socket.CloseSocket(WebSocketCloseStatus.NormalClosure, "Disposing NotificationServer", cancellation).ConfigureAwait(false);
 			}
 			catch { }
 			finally { try { Socket.Dispose(); } catch { } }

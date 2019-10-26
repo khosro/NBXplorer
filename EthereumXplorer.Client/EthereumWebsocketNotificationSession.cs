@@ -32,7 +32,7 @@ namespace EthereumXplorer.Client
 			WebSocket socket = null;
 			try
 			{
-				socket = await ConnectAsyncCore(uri, cancellation);
+				socket = await ConnectAsyncCore(uri, cancellation).ConfigureAwait(false);
 			}
 			catch (WebSocketException) // For some reason the ErrorCode is not properly set, so we can check for error 401
 			{
@@ -41,7 +41,7 @@ namespace EthereumXplorer.Client
 					throw;
 				}
 
-				socket = await ConnectAsyncCore(uri, cancellation);
+				socket = await ConnectAsyncCore(uri, cancellation).ConfigureAwait(false);
 			}
 			JsonSerializerSettings settings = new JsonSerializerSettings();
 			new Serializer(Network.Main).ConfigureSerializer(settings);
@@ -76,7 +76,6 @@ namespace EthereumXplorer.Client
 		}
 
 		private EthereumWebsocketMessageListener _MessageListener;
-		private readonly UTF8Encoding UTF8 = new UTF8Encoding(false, true);
 
 		public override Task<EthereumNewEventBase> NextEventAsync(CancellationToken cancellation = default)
 		{

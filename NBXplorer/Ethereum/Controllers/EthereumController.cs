@@ -98,6 +98,7 @@ namespace NBXplorer.Controllers
 		[Route("txs/cryptos/{CryptoCode}/mnemonic/{mnemonic}")]
 		public async Task<IActionResult> GetTransactionsAsync(string cryptoCode, string mnemonic)
 		{
+			//TODO.It is insecure.Use encryption and pass data by Post method
 			IEnumerable<EthereumClientTransactionData> trans = await _EthereumXplorerClient(cryptoCode).GetTransactionsAsync(mnemonic);
 			return Json(trans);
 		}
@@ -115,6 +116,7 @@ namespace NBXplorer.Controllers
 		[Route("cryptos/{CryptoCode}/mnemonic/{mnemonic}")]
 		public async Task<IActionResult> GetBalanceByMnemonic(string cryptoCode, string mnemonic)
 		{
+			//TODO.It is insecure.Use encryption and pass data by Post method
 			Dictionary<string, decimal> value = await _EthereumXplorerClient(cryptoCode).GetBalanceByMnemonic(mnemonic);
 			return Json(value);
 		}
@@ -124,6 +126,7 @@ namespace NBXplorer.Controllers
 		public async Task<IActionResult> BroadcastAsync(string cryptoCode,
 			 string mnemonic, [FromBody]  EthExplorerWalletSendModel ethWalletSendModel)
 		{
+			//TODO.It is insecure.Use encryption and pass data by Post method
 			string value = await _EthereumXplorerClient(cryptoCode).BroadcastAsync(ethWalletSendModel, mnemonic);
 			return Json(value);
 		}
