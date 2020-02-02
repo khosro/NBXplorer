@@ -452,6 +452,19 @@ namespace NBXplorer
 			return this.SendAsync<CreatePSBTResponse>(HttpMethod.Post, request, "v1/cryptos/{0}/derivations/{1}/psbt/create", new object[] { CryptoCode, derivationStrategy }, cancellation);
 		}
 
+		public Task<CreatePSBTResponse> CreatePSBTListAsync(CreatePSBTRequest1s requests, CancellationToken cancellation = default)
+		{
+			if (requests == null)
+				throw new ArgumentNullException(nameof(requests));
+
+			if (requests.Requests.Any(t => t.Strategy == null))
+			{
+				throw new ArgumentNullException("Invalid derivationStrategy");
+			}
+
+			return this.SendAsync<CreatePSBTResponse>(HttpMethod.Post, requests, "v1/cryptos/{0}/psbt/create", new object[] { CryptoCode }, cancellation);
+		}
+
 		public UpdatePSBTResponse UpdatePSBT(UpdatePSBTRequest request, CancellationToken cancellation = default)
 		{
 			return UpdatePSBTAsync(request, cancellation).GetAwaiter().GetResult();
@@ -490,7 +503,7 @@ namespace NBXplorer
 		{
 			SetMetadataAsync<TMetadata>(derivationScheme, key, value, cancellationToken).GetAwaiter().GetResult();
 		}
-		
+
 		public Task SetMetadataAsync<TMetadata>(DerivationStrategyBase derivationScheme, string key, TMetadata value, CancellationToken cancellationToken = default)
 		{
 			return SendAsync<string>(HttpMethod.Post, value, "v1/cryptos/{0}/derivations/{1}/metadata/{2}", new object[] { CryptoCode, derivationScheme, key }, cancellationToken);
@@ -557,7 +570,7 @@ namespace NBXplorer
 			{
 				return default(T);
 			}
-			if(result.StatusCode == HttpStatusCode.GatewayTimeout || result.StatusCode == HttpStatusCode.RequestTimeout)
+			if (result.StatusCode == HttpStatusCode.GatewayTimeout || result.StatusCode == HttpStatusCode.RequestTimeout)
 			{
 				throw new HttpRequestException($"HTTP error {(int)result.StatusCode}", new TimeoutException());
 			}
