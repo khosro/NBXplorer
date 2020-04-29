@@ -31,7 +31,7 @@
     },
     "newProfile1": {
       "commandName": "Project",
-      "commandLineArgs": "--conf=\"D:\\VS_New\\Trading Engine\\z.Sample_Trading Engine\\btcpayserver\\NBXplorer\\NBXplorer.config\"   -regtest --chains \"btc,eth\" --datadir \"D:\\VS_New\\Trading Engine\\z.Sample_Trading Engine\\btcpayserver\\NBXplorer\\data\""
+      "commandLineArgs": "--conf=\"D:\\VS_New\\Trading Engine\\cryptocurrency-daemon-utils\\btcpayserver\\NBXplorer\\NBXplorer.config\"   -regtest --chains \"btc,ltc\" --datadir \"D:\\VS_New\\Trading Engine\\cryptocurrency-daemon-utils\\btcpayserver\\NBXplorer\\data\""
     },
     "newProfile2-sherkat": {
       "commandName": "Project",

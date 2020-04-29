@@ -33,7 +33,7 @@ namespace NBXplorer
 				httpClient.Timeout = System.Threading.Timeout.InfiniteTimeSpan;
 			});
 			services.AddNBXplorer();
-			services.AddEthereumLike();
+			//services.AddEthereumLike();//TODO.We Remove it.But If we use it, then we must update install instruction to add ethereum config in NBXplorer settings.
 			services.ConfigureNBxplorer(Configuration);
 			IMvcCoreBuilder builder = services.AddMvcCore();
 #if NETCOREAPP21
