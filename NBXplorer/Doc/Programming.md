@@ -19,5 +19,5 @@ In VS select ```Profile_ENV``` profile.The run the following command.
 
 ```
 SETX NBXPLORER_CONF "<Btcpay_Data_Home>\NBXplorer\NBXplorer.config"
-SETX NBXPLORER_CHAINS "btc,ltc"
+SETX NBXPLORER_CHAINS "btc,ltc"  // We can also set it in NBXplorer.config file by parameter "chains"
  ```
